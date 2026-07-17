@@ -1,0 +1,42 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: prometheus-community
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://prometheus-community.github.io/helm-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "61.x"         
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  values:
+    grafana:
+      enabled: true
+      adminPassword: "admin"  
+    prometheus:
+      prometheusSpec:
+        retention: 24h        
+        resources:
+          requests:
+            memory: 400Mi
+          limits:
+            memory: 800Mi
+    alertmanager:
+      enabled: true
+    nodeExporter:
+      enabled: true
+    kubeStateMetrics:
+      enabled: true
