@@ -2,7 +2,7 @@
 
 kind create cluster --config kind-config.yaml
 
-cilium-cli install
+cilium-cli install --version v1.19.3
 
 flux bootstrap github \
   --owner=$GITHUB_USER \
