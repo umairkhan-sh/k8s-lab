@@ -16,7 +16,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: cloud-native-pg
+      chart: cnpg
       version: "0.1.0"         
       sourceRef:
         kind: HelmRepository
